@@ -222,3 +222,88 @@ public static List<Integer> matchingStrings(List<String> strings, List<String> q
 - Iteramos cada uno de los elementos en el primer conjunto de strings, y vamos guardando en el mapa la cantidad de veces que aparece cada string, para esto utilizamos el método ``getOrDefault()``, este método nos permite obtener el valor de una clave en un mapa, si la clave no existe, entonces se retorna el valor por defecto que se le pasa como segundo parámetro, en este caso 0, y se le suma 1, esto es para contar la cantidad de veces que aparece cada string.
 - Luego, iteramos cada uno de los elementos en el segundo conjunto de queries, y vamos guardando en la lista la cantidad de veces que aparece cada string en el conjunto de strings, para esto utilizamos el método ``getOrDefault()``, si la clave no existe, entonces se retorna el valor por defecto que se le pasa como segundo parámetro, en este caso 0.
 - Finalmente, retornamos la lista con la cantidad de veces que aparece cada string en el conjunto de queries.
+
+## 5. Lonely Integer
+
+Dado un array de integers, en donde todos los elementos se repiten dos veces, excepto uno, encontrar el elemento que no se repite.
+
+Ejemplo:
+
+```java
+int[] arr = {1, 2, 3, 4, 3, 2, 1};
+```
+
+En donde el que no se repite es el 4.
+
+### Solución
+
+```java
+    public static int lonelyinteger(List<Integer> a) {
+    // Write your code here
+    int uniqueElement = 0;
+    
+    for (Integer integer : a) {
+        
+        uniqueElement ^= integer;
+    }
+    
+    return uniqueElement;
+
+    }
+```
+
+#### Apuntes
+
+- Se nos pide encontrar el elemento que es único en un conjunto en donde todos se repiten dos veces.
+- La solución mas eficiente es usar, el operador `XOR`, este operador consiste en que si dos bits son diferentes, entonces el resultado es 1, si son iguales, entonces el resultado es 0.
+- Hace una comparación a nivel de bits, entonces, transforma los número a binario y compara bit por bit, por ejemplo:
+
+```
+1 = 0001
+2 = 0010
+----------
+    0011 = 3
+```
+- El operador XOR se representa con el símbolo `^`, en este caso estamos haciendo la comparación XOR y asignando el resultado a la variable `uniqueElement`.
+- Recorrimos todos lo elementos del conjunto y los vamos comparando con el operador XOR, los que son iguales se cancelan y los que son diferentes se suman, al final nos queda el elemento que no se repite, que es el 4 en este caso.
+- Este es un truco para buscar elementos únicos en conjuntos en donde todos los otros elementos se repiten n veces.
+
+##  6. Flipping Bits
+
+Dada una lista de 32 bits de un entero positivo. Voltear todos los bits (1 -> 0) y (0 -> 1) y devolver el resultado como un entero positivo.
+
+Ejemplo:
+
+```
+n = 9
+```
+
+En binario sería:
+
+```
+00000000000000000000000000001001
+```
+
+Nota: son 32 bits, pero para simplificar se muestra solo los últimos 8 bits.
+
+### Solución
+
+```java
+public static long flippingBits(long n) {
+    // Write your code here
+    long flippedNum = ~n;
+    
+    flippedNum &= 0xFFFFFFFFL;
+    
+    return flippedNum;
+
+    }
+```
+
+#### Apuntes
+
+- Se nos pide voltear todos los bits de un número, para esto se utiliza el operador `NOT`, `~`, este operador invierte todos los bits de un número, los que son 1 los convierte en 0 y los que son 0 los convierte en 1.
+- Se nos pide que el resultado sea un entero positivo de 32 bits, para esto se utiliza la máscara `0xFFFFFFFFL`, esto es para que el resultado sea un entero positivo de 32 bits, si no se utiliza esta máscara, el resultado sería un entero negativo.
+- La mascara es un número hexadecimal que tiene 8 `F`, esto es porque en hexadecimal cada `F` es igual a 4 bits, entonces 8 `F` serían 32 bits, que es lo que necesitamos.
+- Hay que hacer esto porque se nos pasa como argumento un `long` el cual es de 64 bits, entonces si hacemos el flip sin la máscara, el resultado será un numero negativo.
+- Finalmente, retornamos el número volteado.
